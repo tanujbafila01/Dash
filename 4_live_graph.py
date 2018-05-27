@@ -31,7 +31,7 @@ def update_graph_scatter():
     Y.append(Y[-1]+Y[-1]*random.uniform(-0.1,0.1))
 
 
-    data = plotly.graph_objs.Scatter(
+    data = go.Scatter(
             x=list(X),
             y=list(Y),
             name='Scatter',

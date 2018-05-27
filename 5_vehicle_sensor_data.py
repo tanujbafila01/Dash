@@ -26,6 +26,7 @@ rpms = deque(maxlen=max_length)
 speeds = deque(maxlen=max_length)
 throttle_pos = deque(maxlen=max_length)
 
+# maps drop down keys to list(graph value)
 data_dict = {"Oil Temperature":oil_temps,
              "Intake Temperature": intake_temps,
              "Coolant Temperature": coolant_temps,
@@ -67,10 +68,10 @@ app.layout = html.Div([
                 style={'float': 'left',
                        }),
         ]),
-    dcc.Dropdown(id='vehicle-data-name',
+    dcc.Dropdown(id='vehicle-data-name', #input for data
                  options=[{'label': s, 'value': s}
                           for s in data_dict.keys()],
-                 value=['Coolant Temperature','Oil Temperature','Intake Temperature'],
+                 value=['Coolant Temperature','Oil Temperature','Intake Temperature'],  #default graphs
                  multi=True
                  ),
     html.Div(children=html.Div(id='graphs'), className='row'),
@@ -86,7 +87,7 @@ app.layout = html.Div([
               [dash.dependencies.Input('vehicle-data-name', 'value')],
               events=[dash.dependencies.Event('graph-update', 'interval')]
              )
-def update_graph(data_names):
+def update_graph(data_names):       #data_names are the input values being passed from dash.dependencies.Input
     graphs = []
     update_obd_values(times, oil_temps, intake_temps, coolant_temps, rpms, speeds, throttle_pos)
 
@@ -115,7 +116,7 @@ def update_graph(data_names):
                                                         yaxis=dict(range=[min(data_dict[data_name]),max(data_dict[data_name])]),
                                                         margin={'l':50,'r':1,'t':45,'b':1},
                                                         title='{}'.format(data_name))}
-            ), className=class_choice))
+            ), className=class_choice)) # class_choice dictates how much space graph takes up
 
     return graphs
 
