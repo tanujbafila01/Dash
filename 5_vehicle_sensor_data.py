@@ -27,11 +27,11 @@ speeds = deque(maxlen=max_length)
 throttle_pos = deque(maxlen=max_length)
 
 data_dict = {"Oil Temperature":oil_temps,
-"Intake Temperature": intake_temps,
-"Coolant Temperature": coolant_temps,
-"RPM":rpms,
-"Speed":speeds,
-"Throttle Position":throttle_pos}
+             "Intake Temperature": intake_temps,
+             "Coolant Temperature": coolant_temps,
+             "RPM":rpms,
+             "Speed":speeds,
+             "Throttle Position":throttle_pos}
 # data_dict contains a string to list dictionary key-value pair
 # this  will be used in dropdown
 
@@ -53,7 +53,12 @@ def update_obd_values(times, oil_temps, intake_temps, coolant_temps, rpms, speed
 
     return times, oil_temps, intake_temps, coolant_temps, rpms, speeds, throttle_pos
 
-times, oil_temps, intake_temps, coolant_temps, rpms, speeds, throttle_pos = update_obd_values(times, oil_temps, intake_temps, coolant_temps, rpms, speeds, throttle_pos)
+times, oil_temps, intake_temps, coolant_temps, rpms, speeds, throttle_pos = update_obd_values(times,
+                                                                                              oil_temps,
+                                                                                              intake_temps,
+                                                                                              coolant_temps,
+                                                                                              rpms, speeds,
+                                                                                              throttle_pos)
 
 # Structure of the app
 app.layout = html.Div([
@@ -75,15 +80,15 @@ app.layout = html.Div([
     ], className="container",style={'width':'98%','margin-left':10,'margin-right':10,'max-width':50000})
 	
 # Decorator with output, input and event
+
 @app.callback(
-    dash.dependencies.Output('graphs','children'),
-    [dash.dependencies.Input('vehicle-data-name', 'value')],
-    events=[dash.dependencies.Event('graph-update', 'interval')]
-    )
+              dash.dependencies.Output('graphs','children'),
+              [dash.dependencies.Input('vehicle-data-name', 'value')],
+              events=[dash.dependencies.Event('graph-update', 'interval')]
+             )
 def update_graph(data_names):
     graphs = []
     update_obd_values(times, oil_temps, intake_temps, coolant_temps, rpms, speeds, throttle_pos)
-
 
     if len(data_names)>2:
         class_choice = 'col s12 m6 l4'
